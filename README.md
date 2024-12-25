@@ -1,4 +1,4 @@
-# {{Template}}
+# grpc-hello-world
 
 ## Prerequisites
 
