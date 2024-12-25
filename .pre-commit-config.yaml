@@ -1,0 +1,18 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: end-of-file-fixer
+
+  - repo: local
+    hooks:
+      # Referenced https://github.com/golangci/golangci-lint/blob/master/.pre-commit-hooks.yaml
+      - id: golangci-lint
+        name: golangci-lint
+        description: Fast linters runner for Go.
+        entry: golangci-lint run --fix
+        types: [ go ]
+        language: golang
+        pass_filenames: false
