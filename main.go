@@ -6,7 +6,6 @@ import (
 	"net"
 	"os"
 	"os/signal"
-	"strconv"
 	"syscall"
 
 	"google.golang.org/grpc"
@@ -25,21 +24,17 @@ func main() {
 	reflection.Register(grpcServer)
 	pb.RegisterHelloServiceServer(grpcServer, &helloServer{})
 
-	port := 50053
-	if ePort := os.Getenv("PORT"); ePort != "" {
-		parsed, err := strconv.Atoi(ePort)
-		if err != nil {
-			panic(err)
-		}
-		port = parsed
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "50054"
 	}
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		panic(err)
 	}
 
 	go func() {
-		fmt.Printf("gRPC server is running on port %d\n", port)
+		fmt.Printf("gRPC server is running on port %s\n", port)
 		if err := grpcServer.Serve(lis); err != nil {
 			panic(err)
 		}
