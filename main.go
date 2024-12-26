@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
@@ -20,6 +21,9 @@ func main() {
 	grpcServer := grpc.NewServer()
 	healthChecker := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(grpcServer, healthChecker)
+
+	grpcLogger := grpclog.NewLoggerV2(os.Stdout, os.Stdout, os.Stderr)
+	grpclog.SetLoggerV2(grpcLogger)
 
 	reflection.Register(grpcServer)
 	pb.RegisterHelloServiceServer(grpcServer, &helloServer{})
