@@ -5,7 +5,9 @@ on:
 permissions:
   contents: read
   # Optional: allow read access to pull request. Use with `only-new-issues` option.
-  # pull-requests: read
+  pull-requests: read
+  # Optional: allow write access to checks to allow the action to annotate code in the PR.
+  checks: write
 
 jobs:
   golangci:
@@ -19,6 +21,6 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v6
         with:
-          version: v1.61
+          version: v1.64
           args: --timeout=10m
           only-new-issues: true
